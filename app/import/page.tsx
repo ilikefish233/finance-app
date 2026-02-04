@@ -161,7 +161,7 @@ export default function ImportPage() {
               
               <h3 className="text-sm font-medium mt-3">注意事项：</h3>
               <ul className="mt-2 text-sm space-y-1">
-                <li>• 微信账单导出时请选择"仅导出本设备的账单记录"</li>
+                <li>• 微信账单导出时请选择'仅导出本设备的账单记录'</li>
                 <li>• 导入过程可能需要一些时间，请耐心等待</li>
                 <li>• 导入完成后会显示成功和失败的记录数</li>
               </ul>
