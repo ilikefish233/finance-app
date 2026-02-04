@@ -1,36 +1,251 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 个人财务管理系统
 
-## Getting Started
+一个功能完善的个人财务管理系统，帮助用户追踪收支、分析消费模式、制定预算计划，实现更好的个人财务规划。
 
-First, run the development server:
+## 功能特点
+
+- **用户认证**：安全的用户注册、登录和身份验证
+- **交易管理**：完整的交易记录增删改查功能，支持按类型、分类、日期筛选
+- **分类管理**：自定义收入和支出分类，支持设置图标和颜色
+- **一键分类**：基于关键词匹配的智能分类功能，避免重复创建分类
+- **数据统计分析**：直观的收支概览、趋势分析、分类占比图表，收入红色、支出绿色显示
+- **数据导入导出**：支持导入微信账单和程序自身导出的CSV文件，导出交易数据为CSV格式（解决乱码问题）
+- **预算管理**：设置月度预算，实时监控预算使用情况
+- **中性交易处理**：特殊处理"/"代表的中性交易，不算作收支，在交易列表中灰色表示
+
+## 技术栈
+
+- **前端**：Next.js 16.1.1, React 19.2.3, Tailwind CSS 4, Recharts 3.6.0
+- **后端**：Next.js API Routes, Prisma 5.18.0
+- **数据库**：SQLite
+- **工具库**：Zod 4.3.5, PapaParse 5.5.3, XLSX 0.18.5, bcryptjs 3.0.3
+
+## 系统架构
+
+- **前端**：使用React和Next.js构建响应式用户界面，Tailwind CSS负责样式管理
+- **后端**：基于Next.js API Routes实现RESTful API
+- **数据库**：使用Prisma ORM操作SQLite数据库
+- **部署**：支持Vercel、Netlify等静态网站托管服务
+
+## 快速开始
+
+### 环境要求
+
+- Node.js v18.0.0或更高版本
+- npm v9.0.0或更高版本
+
+### 安装步骤
+
+1. **克隆代码库**
+
+```bash
+git clone <repository-url>
+cd finance-app
+```
+
+2. **安装依赖**
+
+```bash
+npm install
+```
+
+3. **配置数据库**
+
+```bash
+npm run db:migrate
+```
+
+4. **启动开发服务器**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. **访问系统**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+打开浏览器，访问 `http://localhost:3000`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 项目结构
 
-## Learn More
+```
+finance-app/
+├── app/                    # Next.js应用目录
+│   ├── (auth)/              # 认证相关页面
+│   ├── api/                 # API路由
+│   │   ├── auth/            # 认证相关API
+│   │   ├── categories/      # 分类相关API
+│   │   ├── export/          # 导出相关API
+│   │   ├── import/          # 导入相关API
+│   │   ├── statistics/      # 统计相关API
+│   │   └── transactions/    # 交易相关API
+│   ├── budgets/             # 预算管理页面
+│   ├── categories/          # 分类管理页面
+│   ├── dashboard/           # 仪表盘页面
+│   ├── export/              # 数据导出页面
+│   ├── import/              # 数据导入页面
+│   ├── transactions/        # 交易管理页面
+│   └── layout.tsx           # 页面布局
+├── components/              # 组件目录
+│   ├── charts/              # 图表组件（BarChart、LineChart、PieChart）
+│   ├── layout/              # 布局组件（Layout、Navbar、Sidebar）
+│   └── ui/                  # UI组件（Button、Input、Loading、Select）
+├── lib/                     # 工具库
+│   ├── import/              # 导入相关功能（微信账单解析、程序导出CSV解析）
+│   ├── api-response.ts      # API响应处理
+│   ├── auth.ts              # 认证相关功能
+│   ├── db.ts                # 数据库连接
+│   ├── export.ts            # 导出相关功能
+│   ├── format.ts            # 格式化工具
+│   ├── statistics.ts        # 统计相关功能
+│   ├── utils.ts             # 通用工具
+│   └── validation.ts        # 数据验证
+├── prisma/                  # Prisma ORM配置
+│   ├── migrations/          # 数据库迁移文件
+│   ├── dev.db               # 开发环境数据库
+│   └── schema.prisma        # 数据模型定义
+├── public/                  # 静态资源
+├── types/                   # TypeScript类型定义
+├── scripts/                 # 脚本文件
+├── package.json             # 项目配置
+└── tsconfig.json            # TypeScript配置
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 核心功能使用指南
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. 用户认证
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **注册**：访问 `/register` 页面，填写邮箱、密码和姓名
+- **登录**：访问 `/login` 页面，使用注册的邮箱和密码登录
+- **登出**：点击右上角用户菜单中的登出按钮
 
-## Deploy on Vercel
+### 2. 交易管理
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **添加交易**：访问 `/transactions` 页面，点击"添加交易"按钮
+- **编辑交易**：在交易列表中找到要编辑的交易，点击"编辑"按钮
+- **删除交易**：在交易列表中找到要删除的交易，点击"删除"按钮
+- **筛选交易**：使用页面上方的筛选条件，按类型、分类、日期范围筛选
+- **一键分类**：点击交易列表页面的"一键分类"按钮，系统会自动为未分类的交易分配合适的分类
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. 分类管理
+
+- **添加分类**：访问 `/categories` 页面，点击"添加分类"按钮
+- **编辑分类**：在分类列表中找到要编辑的分类，点击"编辑"按钮
+- **删除分类**：在分类列表中找到要删除的分类，点击"删除"按钮
+
+### 4. 数据统计
+
+- **查看概览**：访问 `/dashboard` 页面，查看收支概览
+- **查看趋势**：在仪表盘页面查看收支趋势图表
+- **查看分类占比**：在仪表盘页面查看分类占比图表
+- **颜色说明**：收入相关数据显示为红色，支出相关数据显示为绿色
+
+### 5. 数据导入导出
+
+- **导入微信账单**：访问 `/import` 页面，上传微信导出的CSV或XLSX格式账单
+- **导入程序导出的CSV**：访问 `/import` 页面，上传系统自身导出的CSV文件
+- **导出数据**：访问 `/export` 页面，设置导出条件，点击"导出"按钮，系统会生成并下载CSV文件（已解决乱码问题）
+
+### 6. 预算管理
+
+- **设置预算**：访问 `/budgets` 页面，输入月度预算金额
+- **查看预算使用情况**：在仪表盘页面查看预算使用情况和预警信息
+
+## 特殊功能说明
+
+### 中性交易处理
+
+- **识别方式**：系统会识别交易中"/"代表的中性交易
+- **显示方式**：在交易列表中以灰色显示
+- **统计处理**：不算作收入或支出，不参与收支统计
+
+### 一键分类功能
+
+- **智能匹配**：基于关键词匹配和优先级排序，为交易分配合适的分类
+- **防重复机制**：实现并发控制与锁机制，防止重复创建分类
+- **分类优化**：优化了分类匹配逻辑，解决了"印刷厂"、"充电宝"、"转账"、"游戏"等交易被错误分类的问题
+
+### 数据导出优化
+
+- **乱码修复**：通过添加UTF-8 BOM解决了Excel打开CSV文件乱码的问题
+- **格式支持**：支持按日期范围和分类筛选导出
+- **ID包含**：导出的CSV文件包含交易ID，支持重新导入时检测重复记录
+
+## 数据安全
+
+- **密码加密**：用户密码使用bcryptjs加密存储
+- **身份验证**：所有API请求都需要验证用户身份
+- **数据隔离**：用户只能访问和修改自己的数据
+- **输入验证**：所有输入数据都经过严格验证，防止恶意输入
+
+## 常见问题
+
+### Q: 如何导入微信账单？
+
+A: 1. 在微信中导出账单，选择"仅导出本设备的账单记录"
+2. 访问系统的 `/import` 页面
+3. 上传导出的CSV或XLSX文件
+4. 点击"导入"按钮，等待导入完成
+
+### Q: 为什么导入的交易记录会有重复？
+
+A: 系统会自动检测重复交易，优先通过交易ID检查。如果导入的文件中没有包含交易ID，系统会通过交易时间、金额和类型的组合来判断是否重复。
+
+### Q: 预算设置在哪里？
+
+A: 访问 `/budgets` 页面，输入月度预算金额，点击"保存"按钮。预算设置会存储在本地，刷新页面后仍然有效。
+
+### Q: 如何导出交易数据？
+
+A: 访问 `/export` 页面，设置导出的日期范围，选择导出格式（目前仅支持CSV），点击"导出"按钮，系统会生成并下载CSV文件。
+
+### Q: 为什么有些交易显示为灰色？
+
+A: 灰色显示的交易是中性交易（交易方向为"/"），不算作收入或支出，不参与收支统计。
+
+### Q: 一键分类功能如何工作？
+
+A: 一键分类功能基于关键词匹配和优先级排序，为未分类的交易分配合适的分类。系统会自动处理并发请求，防止重复创建分类。
+
+## 开发指南
+
+### 数据库操作
+
+- **生成Prisma客户端**：`npm run db:generate`
+- **执行数据库迁移**：`npm run db:migrate`
+- **打开Prisma Studio**：`npm run db:studio`
+
+### 代码质量
+
+- **运行ESLint**：`npm run lint`
+- **格式化代码**：`npm run format`
+- **检查代码格式**：`npm run format:check`
+
+### 构建和部署
+
+- **构建项目**：`npm run build`
+- **启动生产服务器**：`npm start`
+
+## 贡献
+
+欢迎贡献代码、报告问题或提出建议！请遵循以下步骤：
+
+1. Fork 本仓库
+2. 创建一个新的分支
+3. 提交你的更改
+4. 推送到你的分支
+5. 创建一个 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+
+## 联系我们
+
+如果您有任何问题或建议，请通过以下方式联系我们：
+
+- 邮箱：contact@finance-app.example.com
+- GitHub：https://github.com/username/finance-app
+
+---
+
+感谢使用个人财务管理系统！希望它能帮助您更好地管理个人财务。
